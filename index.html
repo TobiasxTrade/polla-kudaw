@@ -64,17 +64,11 @@
 
         <!-- Botones superiores -->
         <div class="flex flex-wrap gap-4 justify-center mb-10">
-            <button onclick="toggleHowTo()" 
-                    class="bg-[#F4C430] hover:bg-[#e6b000] text-[#006400] font-bold text-lg px-8 py-4 rounded-3xl flex items-center gap-3 shadow-md transition">
-                ❓ ¿CÓMO PARTICIPAR?
-            </button>
-            <button onclick="togglePremios()" 
-                    class="bg-[#006400] hover:bg-[#004d00] text-white font-bold text-lg px-8 py-4 rounded-3xl flex items-center gap-3 shadow-md transition">
-                🏆 PREMIOS
-            </button>
+            <button onclick="toggleHowTo()" class="bg-[#F4C430] hover:bg-[#e6b000] text-[#006400] font-bold text-lg px-8 py-4 rounded-3xl flex items-center gap-3 shadow-md transition">❓ ¿CÓMO PARTICIPAR?</button>
+            <button onclick="togglePremios()" class="bg-[#006400] hover:bg-[#004d00] text-white font-bold text-lg px-8 py-4 rounded-3xl flex items-center gap-3 shadow-md transition">🏆 PREMIOS</button>
         </div>
 
-        <!-- ¿CÓMO PARTICIPAR? (ahora corregido) -->
+        <!-- ¿CÓMO PARTICIPAR? -->
         <div id="how-to-text" class="hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-10">
             <h3 class="text-2xl font-bold text-[#006400] mb-6 text-center">❓ ¿CÓMO PARTICIPAR?</h3>
             <p class="text-lg leading-relaxed text-gray-700">
@@ -110,16 +104,11 @@
         </div>
 
         <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-            <button onclick="loginAdmin()" 
-                    class="bg-[#006400] hover:bg-[#004d00] text-white font-bold px-10 py-4 rounded-3xl flex items-center gap-3 shadow-lg text-lg transition">
-                🔑 INGRESAR COMO ADMIN
-            </button>
-            
+            <button onclick="loginAdmin()" class="bg-[#006400] hover:bg-[#004d00] text-white font-bold px-10 py-4 rounded-3xl flex items-center gap-3 shadow-lg text-lg transition">🔑 INGRESAR COMO ADMIN</button>
             <div class="bg-white rounded-3xl px-10 py-6 shadow-sm border border-gray-100 text-center">
                 <div class="text-sm text-gray-500 font-medium">NÚMEROS DISPONIBLES</div>
                 <div id="available-number" class="text-6xl font-bold text-[#228B22]">100</div>
             </div>
-            
             <div id="status" class="text-sm font-medium bg-white px-6 py-4 rounded-3xl shadow-sm border border-gray-100"></div>
         </div>
 
@@ -140,47 +129,38 @@
         <!-- SORTEO -->
         <div id="draw-section" class="hidden mt-16 bg-white rounded-3xl p-10 shadow-sm border border-gray-100">
             <h3 class="text-3xl font-bold text-center mb-8 text-[#006400]">🎟️ PROCESO DEL SORTEO</h3>
-            <button onclick="startDraw()" 
-                    class="w-full bg-red-600 hover:bg-red-700 text-white text-2xl font-bold py-7 rounded-3xl shadow-xl transition">
-                🚀 INICIAR SORTEO COMPLETO
-            </button>
+            <button onclick="startDraw()" class="w-full bg-red-600 hover:bg-red-700 text-white text-2xl font-bold py-7 rounded-3xl shadow-xl transition">🚀 INICIAR SORTEO COMPLETO</button>
             <div id="winners-list" class="mt-12 space-y-6"></div>
         </div>
     </div>
 
-    <!-- MODAL VER DATOS (solo Admin) -->
-    <div id="view-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-        <div class="bg-white text-[#006400] p-8 rounded-3xl w-full max-w-md mx-4 shadow-2xl">
-            <h3 class="text-2xl font-bold mb-2">Número <span id="view-number" class="text-4xl text-[#F4C430]"></span></h3>
-            <div class="mt-6 space-y-4">
-                <div>
-                    <p class="text-sm text-gray-500">Nombre completo</p>
-                    <p id="view-name" class="text-xl font-semibold"></p>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-500">Teléfono / WhatsApp</p>
-                    <p id="view-phone" class="text-xl font-semibold"></p>
-                </div>
-            </div>
-            <button onclick="hideViewModal()" class="mt-8 w-full bg-[#006400] text-white font-bold py-4 rounded-2xl">CERRAR</button>
-        </div>
-    </div>
-
-    <!-- MODAL TOMBOLA -->
+    <!-- MODAL TOMBOLA (con texto debajo) -->
     <div id="tombola-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[100]">
         <div class="text-center">
             <div class="w-80 h-80 mx-auto bg-white rounded-3xl flex items-center justify-center border-8 border-[#F4C430] shadow-2xl">
                 <div id="spinning-number" class="text-9xl font-mono font-black text-[#006400] tombola"></div>
             </div>
-            <div id="result-text" class="mt-12 text-6xl font-bold min-h-[110px]"></div>
+            <div id="tombola-status" class="mt-6 text-4xl font-bold min-h-[60px]"></div>
+            <div id="result-text" class="mt-4 text-6xl font-bold min-h-[80px]"></div>
+        </div>
+    </div>
+
+    <!-- MODAL VER DATOS ADMIN -->
+    <div id="view-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+        <div class="bg-white text-[#006400] p-8 rounded-3xl w-full max-w-md mx-4 shadow-2xl">
+            <h3 class="text-2xl font-bold mb-2">Número <span id="view-number" class="text-4xl text-[#F4C430]"></span></h3>
+            <div class="mt-6 space-y-4">
+                <div><p class="text-sm text-gray-500">Nombre completo</p><p id="view-name" class="text-xl font-semibold"></p></div>
+                <div><p class="text-sm text-gray-500">Teléfono / WhatsApp</p><p id="view-phone" class="text-xl font-semibold"></p></div>
+            </div>
+            <button onclick="hideViewModal()" class="mt-8 w-full bg-[#006400] text-white font-bold py-4 rounded-2xl">CERRAR</button>
         </div>
     </div>
 
     <script>
-        // ==================== CONFIGURACIÓN ====================
         const SHEET_ID = "1kQkb3KmTHLyVSmBjUuD0qO3KhJAGT9Tdcdn7maoqHcc";
         const SHEET_NAME = "Hoja 1";
-        const DEADLINE = new Date("2026-04-14T14:18:00-04:00");
+        const DEADLINE = new Date("2026-04-14T14:28:00-04:00");
         const ADMIN_USER = "Admin";
         const ADMIN_PASSWORD = "Kudaw2026";
 
@@ -212,23 +192,16 @@
             const grid = document.getElementById("grid");
             grid.innerHTML = "";
             let sold = 0;
-
             numbers.forEach(n => {
                 const isSold = n.name && n.name.trim() !== "";
                 if (isSold) sold++;
-
                 const div = document.createElement("div");
                 div.className = `number-square ${isSold ? 'vendido' : 'disponible'}`;
                 div.innerHTML = `<div class="numero">${n.num}</div><div class="estado">${isSold ? 'VENDIDO' : 'DISPONIBLE'}</div>`;
-
-                if (isAdmin && isSold) {
-                    div.onclick = () => showDetails(n);
-                } else if (!isAdmin) {
-                    div.onclick = () => alert("🔒 Solo el Administrador puede ver los datos del participante.");
-                }
+                if (isAdmin && isSold) div.onclick = () => showDetails(n);
+                else if (!isAdmin) div.onclick = () => alert("🔒 Solo el Administrador puede ver los datos del participante.");
                 grid.appendChild(div);
             });
-
             document.getElementById("sold-count").innerHTML = `${sold}/100 vendidos`;
             updateAvailableCount(sold);
         }
@@ -238,14 +211,11 @@
             document.getElementById("view-name").textContent = n.name;
             document.getElementById("view-phone").textContent = n.phone || "No registrado";
             const modal = document.getElementById("view-modal");
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
+            modal.classList.remove("hidden"); modal.classList.add("flex");
         }
-
         function hideViewModal() {
             const modal = document.getElementById("view-modal");
-            modal.classList.add("hidden");
-            modal.classList.remove("flex");
+            modal.classList.add("hidden"); modal.classList.remove("flex");
         }
 
         function updateAvailableCount(sold) {
@@ -263,18 +233,11 @@
                 document.getElementById("status").innerHTML = `✅ ADMINISTRADOR CONECTADO`;
                 renderGrid();
                 checkDeadline();
-            } else {
-                alert("❌ Usuario o contraseña incorrectos");
-            }
+            } else alert("❌ Usuario o contraseña incorrectos");
         }
 
-        function toggleHowTo() {
-            document.getElementById("how-to-text").classList.toggle("hidden");
-        }
-
-        function togglePremios() {
-            document.getElementById("premios-text").classList.toggle("hidden");
-        }
+        function toggleHowTo() { document.getElementById("how-to-text").classList.toggle("hidden"); }
+        function togglePremios() { document.getElementById("premios-text").classList.toggle("hidden"); }
 
         function updateCountdown() {
             const now = new Date();
@@ -291,16 +254,19 @@
         }
 
         function checkDeadline() {
-            if (new Date() >= DEADLINE && isAdmin) {
-                document.getElementById("draw-section").classList.remove("hidden");
-            }
+            if (new Date() >= DEADLINE && isAdmin) document.getElementById("draw-section").classList.remove("hidden");
         }
 
-        function showTombola(targetNum, isWinner) {
+        // ====================== TOMBOLA CON TEXTO ======================
+        function showTombola(targetNum, statusText) {
             const modal = document.getElementById("tombola-modal");
             modal.classList.remove("hidden"); modal.classList.add("flex");
+
             const spinning = document.getElementById("spinning-number");
+            const statusEl = document.getElementById("tombola-status");
             const result = document.getElementById("result-text");
+
+            statusEl.textContent = statusText;   // ← Muestra "AL AGUA!" o "GANADOR" mientras gira
 
             let count = 0;
             const interval = setInterval(() => {
@@ -312,9 +278,15 @@
                 clearInterval(interval);
                 spinning.textContent = targetNum;
                 spinning.classList.remove("tombola");
-                result.innerHTML = isWinner ? `<span class="text-[#F4C430]">¡GANADOR!</span>` : `<span class="text-red-600">¡AL AGUA!</span>`;
-                if (isWinner) createConfetti();
-                setTimeout(() => { modal.classList.add("hidden"); modal.classList.remove("flex"); }, 2800);
+                result.innerHTML = statusText === "GANADOR" 
+                    ? `<span class="text-[#F4C430]">¡GANADOR!</span>` 
+                    : `<span class="text-red-600">¡AL AGUA!</span>`;
+                if (statusText === "GANADOR") createConfetti();
+
+                setTimeout(() => {
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                }, 2800);
             }, 3000);
         }
 
@@ -342,6 +314,7 @@
 
             function drawPrize() {
                 if (prizeIndex >= prizeOrder.length) { renderWinners(); return; }
+
                 const prizeName = prizeOrder[prizeIndex];
                 let tempPool = [...pool];
                 const selected = [];
@@ -354,11 +327,27 @@
                 function showNext() {
                     const current = selected[selIndex];
                     const isWinner = selIndex === 2;
-                    winners.push({ prize: prizeName, num: current.num, name: current.name || "", status: isWinner ? "GANADOR" : "AL AGUA!" });
-                    showTombola(current.num, isWinner);
+                    const statusText = isWinner ? "GANADOR" : "AL AGUA!";
+
+                    // Guardar inmediatamente
+                    winners.push({
+                        prize: prizeName,
+                        num: current.num,
+                        name: current.name || "",
+                        status: statusText
+                    });
+
+                    // Mostrar en la tombola con el texto correcto
+                    showTombola(current.num, statusText);
+
+                    // Actualizar listado en tiempo real
+                    renderWinners();
+
                     selIndex++;
-                    if (selIndex < 3) setTimeout(showNext, 3600);
-                    else {
+                    if (selIndex < 3) {
+                        setTimeout(showNext, 3600);
+                    } else {
+                        // Eliminar solo el ganador del pool
                         pool = pool.filter(n => n.num !== selected[2].num);
                         prizeIndex++;
                         setTimeout(drawPrize, 800);
@@ -372,6 +361,7 @@
         function renderWinners() {
             const container = document.getElementById("winners-list");
             container.innerHTML = `<h3 class="text-3xl font-bold text-[#006400] mb-8 text-center">🏆 PROCESO DEL SORTEO</h3>`;
+            
             winners.forEach(w => {
                 const div = document.createElement("div");
                 div.className = `rounded-3xl p-6 flex justify-between items-center shadow-sm border ${w.status === "GANADOR" ? 'border-green-500 bg-green-50' : 'border-red-300 bg-red-50'}`;
