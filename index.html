@@ -51,6 +51,7 @@
 </head>
 <body class="min-h-screen pb-12">
     <div class="max-w-7xl mx-auto px-4 py-8">
+        
         <!-- HEADER -->
         <div class="flex items-center justify-center gap-4 mb-10">
             <span class="text-6xl">🌲</span>
@@ -112,6 +113,24 @@
         </div>
     </div>
 
+    <!-- MODAL VER DATOS (solo Admin) -->
+    <div id="view-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+        <div class="bg-white text-[#006400] p-8 rounded-3xl w-full max-w-md mx-4 shadow-2xl">
+            <h3 class="text-2xl font-bold mb-2">Número <span id="view-number" class="text-4xl text-[#F4C430]"></span></h3>
+            <div class="mt-6 space-y-4">
+                <div>
+                    <p class="text-sm text-gray-500">Nombre completo</p>
+                    <p id="view-name" class="text-xl font-semibold"></p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Teléfono / WhatsApp</p>
+                    <p id="view-phone" class="text-xl font-semibold"></p>
+                </div>
+            </div>
+            <button onclick="hideViewModal()" class="mt-8 w-full bg-[#006400] text-white font-bold py-4 rounded-2xl">CERRAR</button>
+        </div>
+    </div>
+
     <!-- MODAL TOMBOLA -->
     <div id="tombola-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[100]">
         <div class="text-center">
@@ -125,7 +144,7 @@
     <script>
         const SHEET_ID = "1kQkb3KmTHLyVSmBjUuD0qO3KhJAGT9Tdcdn7maoqHcc";
         const SHEET_NAME = "Hoja 1";
-        const DEADLINE = new Date("2026-04-14T14:04:00-04:00");
+        const DEADLINE = new Date("2026-04-14T14:12:00-04:00");
         const ADMIN_USER = "Admin";
         const ADMIN_PASSWORD = "Kudaw2026";
 
@@ -157,16 +176,41 @@
             const grid = document.getElementById("grid");
             grid.innerHTML = "";
             let sold = 0;
+
             numbers.forEach(n => {
                 const isSold = n.name && n.name.trim() !== "";
                 if (isSold) sold++;
+
                 const div = document.createElement("div");
                 div.className = `number-square ${isSold ? 'vendido' : 'disponible'}`;
                 div.innerHTML = `<div class="numero">${n.num}</div><div class="estado">${isSold ? 'VENDIDO' : 'DISPONIBLE'}</div>`;
+
+                // Click behavior
+                if (isAdmin && isSold) {
+                    div.onclick = () => showDetails(n);
+                } else if (!isAdmin) {
+                    div.onclick = () => alert("🔒 Solo el Administrador puede ver los datos del participante.");
+                }
+                // Si es Admin pero Disponible → no hace nada
                 grid.appendChild(div);
             });
+
             document.getElementById("sold-count").innerHTML = `${sold}/100 vendidos`;
             updateAvailableCount(sold);
+        }
+
+        function showDetails(n) {
+            document.getElementById("view-number").textContent = n.num;
+            document.getElementById("view-name").textContent = n.name;
+            document.getElementById("view-phone").textContent = n.phone || "No registrado";
+            document.getElementById("view-modal").classList.remove("hidden");
+            document.getElementById("view-modal").classList.add("flex");
+        }
+
+        function hideViewModal() {
+            const modal = document.getElementById("view-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
         }
 
         function updateAvailableCount(sold) {
@@ -182,8 +226,11 @@
             if (user === ADMIN_USER && pass === ADMIN_PASSWORD) {
                 isAdmin = true;
                 document.getElementById("status").innerHTML = `✅ ADMINISTRADOR CONECTADO`;
+                renderGrid(); // refresca para activar los clicks
                 checkDeadline();
-            } else alert("❌ Usuario o contraseña incorrectos");
+            } else {
+                alert("❌ Usuario o contraseña incorrectos");
+            }
         }
 
         function toggleHowTo() { document.getElementById("how-to-text").classList.toggle("hidden"); }
@@ -207,6 +254,7 @@
             if (new Date() >= DEADLINE && isAdmin) document.getElementById("draw-section").classList.remove("hidden");
         }
 
+        // === SORTEO (mantenido igual que la versión anterior) ===
         function showTombola(targetNum, isWinner) {
             const modal = document.getElementById("tombola-modal");
             modal.classList.remove("hidden"); modal.classList.add("flex");
@@ -214,7 +262,10 @@
             const result = document.getElementById("result-text");
 
             let count = 0;
-            const interval = setInterval(() => { spinning.textContent = Math.floor(Math.random() * 100) + 1; if (++count > 25) clearInterval(interval); }, 80);
+            const interval = setInterval(() => {
+                spinning.textContent = Math.floor(Math.random() * 100) + 1;
+                if (++count > 25) clearInterval(interval);
+            }, 80);
 
             setTimeout(() => {
                 clearInterval(interval);
@@ -226,7 +277,7 @@
             }, 3000);
         }
 
-        function createConfetti() {
+        function createConfetti() { /* ... mismo código de confeti anterior ... */ 
             for (let i = 0; i < 80; i++) {
                 setTimeout(() => {
                     const c = document.createElement("div");
@@ -240,7 +291,7 @@
             }
         }
 
-        function startDraw() {
+        function startDraw() { /* ... mismo código de sorteo anterior ... */ 
             let pool = numbers.filter(n => n.name && n.name.trim() !== "");
             if (pool.length < 3) { alert("❌ No hay suficientes números vendidos."); return; }
 
@@ -250,7 +301,6 @@
 
             function drawPrize() {
                 if (prizeIndex >= prizeOrder.length) { renderWinners(); return; }
-
                 const prizeName = prizeOrder[prizeIndex];
                 let tempPool = [...pool];
                 const selected = [];
@@ -263,24 +313,14 @@
                 function showNext() {
                     const current = selected[selIndex];
                     const isWinner = selIndex === 2;
-
-                    winners.push({
-                        prize: prizeName,
-                        num: current.num,
-                        name: current.name || "",
-                        status: isWinner ? "GANADOR" : "AL AGUA!"
-                    });
-
+                    winners.push({ prize: prizeName, num: current.num, name: current.name || "", status: isWinner ? "GANADOR" : "AL AGUA!" });
                     showTombola(current.num, isWinner);
-
                     selIndex++;
-                    if (selIndex < 3) {
-                        setTimeout(showNext, 3600);
-                    } else {
-                        // Solo eliminamos al ganador real
+                    if (selIndex < 3) setTimeout(showNext, 3600);
+                    else {
                         pool = pool.filter(n => n.num !== selected[2].num);
                         prizeIndex++;
-                        setTimeout(drawPrize, 1000);
+                        setTimeout(drawPrize, 800);
                     }
                 }
                 showNext();
@@ -291,7 +331,6 @@
         function renderWinners() {
             const container = document.getElementById("winners-list");
             container.innerHTML = `<h3 class="text-3xl font-bold text-[#006400] mb-8 text-center">🏆 PROCESO DEL SORTEO</h3>`;
-
             winners.forEach(w => {
                 const div = document.createElement("div");
                 div.className = `rounded-3xl p-6 flex justify-between items-center shadow-sm border ${w.status === "GANADOR" ? 'border-green-500 bg-green-50' : 'border-red-300 bg-red-50'}`;
