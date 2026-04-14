@@ -32,62 +32,25 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 6px;
-            position: relative;
         }
-
-        .number-square:hover {
-            transform: scale(1.08);
-            box-shadow: 0 12px 25px rgba(0, 100, 0, 0.25);
-        }
-
-        .number-square .numero {
-            font-size: 2.25rem;
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-
+        .number-square:hover { transform: scale(1.08); box-shadow: 0 12px 25px rgba(0, 100, 0, 0.25); }
+        .number-square .numero { font-size: 2.25rem; line-height: 1; margin-bottom: 4px; }
         .number-square .estado {
-            font-size: 0.78rem;
-            font-weight: 700;
-            padding: 3px 12px;
-            border-radius: 9999px;
-            text-align: center;
-            width: 92%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 0.78rem; font-weight: 700; padding: 3px 12px;
+            border-radius: 9999px; text-align: center; width: 92%;
         }
 
-        .vendido {
-            background-color: #FFF8E1;
-            border-color: #F4C430;
-        }
-        .vendido .estado {
-            background-color: #F4C430;
-            color: #006400;
-        }
+        .vendido { background-color: #FFF8E1; border-color: #F4C430; }
+        .vendido .estado { background-color: #F4C430; color: #006400; }
+        .disponible { background-color: white; border-color: #228B22; }
+        .disponible .estado { background-color: #E6F4EA; color: #006400; }
 
-        .disponible {
-            background-color: white;
-            border-color: #228B22;
-        }
-        .disponible .estado {
-            background-color: #E6F4EA;
-            color: #006400;
-        }
-
-        .tombola {
-            animation: spin 0.7s linear infinite;
-        }
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        .tombola { animation: spin 0.7s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="min-h-screen pb-12">
     <div class="max-w-7xl mx-auto px-4 py-8">
-        
         <!-- HEADER -->
         <div class="flex items-center justify-center gap-4 mb-10">
             <span class="text-6xl">🌲</span>
@@ -100,14 +63,8 @@
 
         <!-- Botones superiores -->
         <div class="flex flex-wrap gap-4 justify-center mb-10">
-            <button onclick="toggleHowTo()" 
-                    class="bg-[#F4C430] hover:bg-[#e6b000] text-[#006400] font-bold text-lg px-8 py-4 rounded-3xl flex items-center gap-3 shadow-md transition">
-                ❓ ¿CÓMO PARTICIPAR?
-            </button>
-            <button onclick="togglePremios()" 
-                    class="bg-[#006400] hover:bg-[#004d00] text-white font-bold text-lg px-8 py-4 rounded-3xl flex items-center gap-3 shadow-md transition">
-                🏆 PREMIOS
-            </button>
+            <button onclick="toggleHowTo()" class="bg-[#F4C430] hover:bg-[#e6b000] text-[#006400] font-bold text-lg px-8 py-4 rounded-3xl flex items-center gap-3 shadow-md transition">❓ ¿CÓMO PARTICIPAR?</button>
+            <button onclick="togglePremios()" class="bg-[#006400] hover:bg-[#004d00] text-white font-bold text-lg px-8 py-4 rounded-3xl flex items-center gap-3 shadow-md transition">🏆 PREMIOS</button>
         </div>
 
         <!-- PREMIOS -->
@@ -127,16 +84,11 @@
         </div>
 
         <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-            <button onclick="loginAdmin()" 
-                    class="bg-[#006400] hover:bg-[#004d00] text-white font-bold px-10 py-4 rounded-3xl flex items-center gap-3 shadow-lg text-lg transition">
-                🔑 INGRESAR COMO ADMIN
-            </button>
-            
+            <button onclick="loginAdmin()" class="bg-[#006400] hover:bg-[#004d00] text-white font-bold px-10 py-4 rounded-3xl flex items-center gap-3 shadow-lg text-lg transition">🔑 INGRESAR COMO ADMIN</button>
             <div class="bg-white rounded-3xl px-10 py-6 shadow-sm border border-gray-100 text-center">
                 <div class="text-sm text-gray-500 font-medium">NÚMEROS DISPONIBLES</div>
                 <div id="available-number" class="text-6xl font-bold text-[#228B22]">100</div>
             </div>
-            
             <div id="status" class="text-sm font-medium bg-white px-6 py-4 rounded-3xl shadow-sm border border-gray-100"></div>
         </div>
 
@@ -146,23 +98,17 @@
             <div id="countdown" class="text-5xl md:text-7xl font-mono font-bold text-[#006400]"></div>
         </div>
 
-        <!-- GRID 10x10 -->
+        <!-- GRID -->
         <div class="mb-12">
-            <h3 class="text-[#006400] text-3xl font-bold mb-6 flex items-center gap-4">
-                📋 NÚMEROS 1 AL 100
-                <span id="sold-count" class="text-base font-normal bg-[#F4C430] text-[#006400] px-6 py-2 rounded-full"></span>
-            </h3>
+            <h3 class="text-[#006400] text-3xl font-bold mb-6 flex items-center gap-4">📋 NÚMEROS 1 AL 100 <span id="sold-count" class="text-base font-normal bg-[#F4C430] text-[#006400] px-6 py-2 rounded-full"></span></h3>
             <div id="grid" class="grid grid-cols-5 sm:grid-cols-10 gap-3 md:gap-4"></div>
         </div>
 
-        <!-- SECCIÓN SORTEO -->
+        <!-- SORTEO -->
         <div id="draw-section" class="hidden mt-16 bg-white rounded-3xl p-10 shadow-sm border border-gray-100">
             <h3 class="text-3xl font-bold text-center mb-8 text-[#006400]">🎟️ PROCESO DEL SORTEO</h3>
-            <button onclick="startDraw()" 
-                    class="w-full bg-red-600 hover:bg-red-700 text-white text-2xl font-bold py-7 rounded-3xl shadow-xl transition">
-                🚀 INICIAR SORTEO COMPLETO
-            </button>
-            <div id="winners-list" class="mt-12 space-y-8"></div>
+            <button onclick="startDraw()" class="w-full bg-red-600 hover:bg-red-700 text-white text-2xl font-bold py-7 rounded-3xl shadow-xl transition">🚀 INICIAR SORTEO COMPLETO</button>
+            <div id="winners-list" class="mt-12 space-y-6"></div>
         </div>
     </div>
 
@@ -179,13 +125,13 @@
     <script>
         const SHEET_ID = "1kQkb3KmTHLyVSmBjUuD0qO3KhJAGT9Tdcdn7maoqHcc";
         const SHEET_NAME = "Hoja 1";
-        const DEADLINE = new Date("2026-04-14T13:54:00-04:00");
+        const DEADLINE = new Date("2026-04-14T14:04:00-04:00");
         const ADMIN_USER = "Admin";
         const ADMIN_PASSWORD = "Kudaw2026";
 
         let isAdmin = false;
         let numbers = [];
-        let winners = [];   // Aquí guardaremos TODOS los seleccionados (AL AGUA y GANADORES)
+        let winners = [];
 
         async function loadFromGoogleSheets() {
             try {
@@ -193,14 +139,11 @@
                 const response = await fetch(url);
                 const csvText = await response.text();
                 const rows = csvText.split('\n').slice(1);
-                
                 numbers = [];
                 for (let row of rows) {
                     if (!row.trim()) continue;
                     const cols = row.split(',').map(c => c.replace(/^"|"$/g, '').trim());
-                    if (cols.length >= 3) {
-                        numbers.push({ num: parseInt(cols[0]), name: cols[1] || "", phone: cols[2] || "" });
-                    }
+                    if (cols.length >= 3) numbers.push({ num: parseInt(cols[0]), name: cols[1] || "", phone: cols[2] || "" });
                 }
                 for (let i = 1; i <= 100; i++) {
                     if (!numbers.find(n => n.num === i)) numbers.push({num: i, name: "", phone: ""});
@@ -214,20 +157,14 @@
             const grid = document.getElementById("grid");
             grid.innerHTML = "";
             let sold = 0;
-
             numbers.forEach(n => {
                 const isSold = n.name && n.name.trim() !== "";
                 if (isSold) sold++;
-
                 const div = document.createElement("div");
                 div.className = `number-square ${isSold ? 'vendido' : 'disponible'}`;
-                div.innerHTML = `
-                    <div class="numero">${n.num}</div>
-                    <div class="estado">${isSold ? 'VENDIDO' : 'DISPONIBLE'}</div>
-                `;
+                div.innerHTML = `<div class="numero">${n.num}</div><div class="estado">${isSold ? 'VENDIDO' : 'DISPONIBLE'}</div>`;
                 grid.appendChild(div);
             });
-
             document.getElementById("sold-count").innerHTML = `${sold}/100 vendidos`;
             updateAvailableCount(sold);
         }
@@ -246,9 +183,7 @@
                 isAdmin = true;
                 document.getElementById("status").innerHTML = `✅ ADMINISTRADOR CONECTADO`;
                 checkDeadline();
-            } else {
-                alert("❌ Usuario o contraseña incorrectos");
-            }
+            } else alert("❌ Usuario o contraseña incorrectos");
         }
 
         function toggleHowTo() { document.getElementById("how-to-text").classList.toggle("hidden"); }
@@ -259,8 +194,7 @@
             const diff = DEADLINE - now;
             if (diff <= 0) {
                 document.getElementById("countdown").innerHTML = `<span class="text-red-600">¡EL SORTEO YA ESTÁ ABIERTO!</span>`;
-                checkDeadline();
-                return;
+                checkDeadline(); return;
             }
             const days = Math.floor(diff / 86400000);
             const hours = Math.floor((diff % 86400000) / 3600000);
@@ -270,41 +204,25 @@
         }
 
         function checkDeadline() {
-            if (new Date() >= DEADLINE && isAdmin) {
-                document.getElementById("draw-section").classList.remove("hidden");
-            }
+            if (new Date() >= DEADLINE && isAdmin) document.getElementById("draw-section").classList.remove("hidden");
         }
 
-        function showTombola(targetNum, isWinner, prizeName) {
+        function showTombola(targetNum, isWinner) {
             const modal = document.getElementById("tombola-modal");
-            modal.classList.remove("hidden"); 
-            modal.classList.add("flex");
-
+            modal.classList.remove("hidden"); modal.classList.add("flex");
             const spinning = document.getElementById("spinning-number");
             const result = document.getElementById("result-text");
 
             let count = 0;
-            const interval = setInterval(() => {
-                spinning.textContent = Math.floor(Math.random() * 100) + 1;
-                if (++count > 25) clearInterval(interval);
-            }, 80);
+            const interval = setInterval(() => { spinning.textContent = Math.floor(Math.random() * 100) + 1; if (++count > 25) clearInterval(interval); }, 80);
 
             setTimeout(() => {
                 clearInterval(interval);
                 spinning.textContent = targetNum;
                 spinning.classList.remove("tombola");
-
-                if (isWinner) {
-                    result.innerHTML = `<span class="text-[#F4C430]">¡GANADOR!</span>`;
-                    createConfetti();
-                } else {
-                    result.innerHTML = `<span class="text-red-600">¡AL AGUA!</span>`;
-                }
-
-                setTimeout(() => { 
-                    modal.classList.add("hidden"); 
-                    modal.classList.remove("flex"); 
-                }, 2800);
+                result.innerHTML = isWinner ? `<span class="text-[#F4C430]">¡GANADOR!</span>` : `<span class="text-red-600">¡AL AGUA!</span>`;
+                if (isWinner) createConfetti();
+                setTimeout(() => { modal.classList.add("hidden"); modal.classList.remove("flex"); }, 2800);
             }, 3000);
         }
 
@@ -313,11 +231,8 @@
                 setTimeout(() => {
                     const c = document.createElement("div");
                     c.textContent = "🌲";
-                    c.style.position = "fixed";
-                    c.style.left = Math.random() * 100 + "vw";
-                    c.style.top = "-30px";
-                    c.style.fontSize = "2.2rem";
-                    c.style.zIndex = 9999;
+                    c.style.position = "fixed"; c.style.left = Math.random() * 100 + "vw"; c.style.top = "-30px";
+                    c.style.fontSize = "2.2rem"; c.style.zIndex = 9999;
                     document.body.appendChild(c);
                     c.animate([{transform: "translateY(0)"}, {transform: `translateY(${window.innerHeight + 100}px)`}], {duration: 2800});
                     setTimeout(() => c.remove(), 4000);
@@ -327,26 +242,18 @@
 
         function startDraw() {
             let pool = numbers.filter(n => n.name && n.name.trim() !== "");
-            if (pool.length < 3) {
-                alert("❌ No hay suficientes números vendidos.");
-                return;
-            }
+            if (pool.length < 3) { alert("❌ No hay suficientes números vendidos."); return; }
 
             const prizeOrder = ["Tercer Premio", "Segundo Premio", "Primer Premio"];
             let prizeIndex = 0;
-            winners = [];   // Reiniciamos la lista cada vez que se inicia el sorteo
+            winners = [];
 
             function drawPrize() {
-                if (prizeIndex >= prizeOrder.length) {
-                    renderWinners();
-                    return;
-                }
+                if (prizeIndex >= prizeOrder.length) { renderWinners(); return; }
 
                 const prizeName = prizeOrder[prizeIndex];
                 let tempPool = [...pool];
                 const selected = [];
-
-                // Seleccionamos 3 números diferentes
                 for (let i = 0; i < 3; i++) {
                     const rand = Math.floor(Math.random() * tempPool.length);
                     selected.push(tempPool.splice(rand, 1)[0]);
@@ -354,26 +261,9 @@
 
                 let selIndex = 0;
                 function showNext() {
-                    if (selIndex >= 3) {
-                        // Solo el tercero es GANADOR
-                        const winner = selected[2];
-                        winners.push({
-                            prize: prizeName,
-                            num: winner.num,
-                            name: winner.name,
-                            status: "GANADOR"
-                        });
-                        pool = pool.filter(n => n.num !== winner.num);
-                        prizeIndex++;
-                        renderWinners();
-                        setTimeout(drawPrize, 800);
-                        return;
-                    }
-
                     const current = selected[selIndex];
                     const isWinner = selIndex === 2;
 
-                    // Guardamos TODOS los seleccionados (AL AGUA y GANADOR)
                     winners.push({
                         prize: prizeName,
                         num: current.num,
@@ -381,35 +271,38 @@
                         status: isWinner ? "GANADOR" : "AL AGUA!"
                     });
 
-                    showTombola(current.num, isWinner, prizeName);
+                    showTombola(current.num, isWinner);
+
                     selIndex++;
-                    setTimeout(showNext, 3600);
+                    if (selIndex < 3) {
+                        setTimeout(showNext, 3600);
+                    } else {
+                        // Solo eliminamos al ganador real
+                        pool = pool.filter(n => n.num !== selected[2].num);
+                        prizeIndex++;
+                        setTimeout(drawPrize, 1000);
+                    }
                 }
                 showNext();
             }
-
             drawPrize();
         }
 
         function renderWinners() {
             const container = document.getElementById("winners-list");
             container.innerHTML = `<h3 class="text-3xl font-bold text-[#006400] mb-8 text-center">🏆 PROCESO DEL SORTEO</h3>`;
-            
+
             winners.forEach(w => {
                 const div = document.createElement("div");
-                div.className = `bg-white border border-gray-200 rounded-3xl p-8 flex justify-between items-center shadow-sm 
-                                 ${w.status === "AL AGUA!" ? 'opacity-75' : ''}`;
-                
+                div.className = `rounded-3xl p-6 flex justify-between items-center shadow-sm border ${w.status === "GANADOR" ? 'border-green-500 bg-green-50' : 'border-red-300 bg-red-50'}`;
                 div.innerHTML = `
-                    <div>
-                        <div class="text-xl font-bold text-gray-600">${w.prize}</div>
-                        <div class="text-6xl font-mono text-[#F4C430]">${w.num}</div>
-                        ${w.name ? `<div class="mt-2 text-lg">${w.name}</div>` : ''}
-                        <div class="mt-3 text-xl font-bold ${w.status === "GANADOR" ? 'text-green-600' : 'text-red-600'}">
-                            ${w.status}
-                        </div>
+                    <div class="flex-1">
+                        <div class="text-lg font-semibold text-gray-700">${w.prize}</div>
+                        <div class="text-5xl font-mono text-[#F4C430]">${w.num}</div>
+                        ${w.name ? `<div class="text-xl mt-1">${w.name}</div>` : ''}
+                        <div class="mt-3 text-2xl font-bold ${w.status === "GANADOR" ? 'text-green-600' : 'text-red-600'}">${w.status}</div>
                     </div>
-                    <div class="text-7xl">${w.status === "GANADOR" ? "🎟️" : "🌊"}</div>
+                    <div class="text-6xl">${w.status === "GANADOR" ? "🎟️" : "🌊"}</div>
                 `;
                 container.appendChild(div);
             });
