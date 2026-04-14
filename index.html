@@ -18,32 +18,61 @@
             font-weight: 700;
             letter-spacing: 1.5px;
         }
+
         .number-square {
             aspect-ratio: 1 / 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 1.75rem;
             font-weight: 700;
             border: 3px solid #228B22;
             border-radius: 16px;
             transition: all 0.3s ease;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            position: relative;
         }
+
         .number-square:hover {
             transform: scale(1.08);
-            box-shadow: 0 10px 20px rgba(0, 100, 0, 0.2);
+            box-shadow: 0 12px 25px rgba(0, 100, 0, 0.25);
         }
+
+        .number-square .numero {
+            font-size: 2.1rem;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .number-square .estado {
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-align: center;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            width: 100%;
+        }
+
         .vendido {
             background-color: #FFF8E1;
             border-color: #F4C430;
+        }
+        .vendido .estado {
+            background-color: #F4C430;
             color: #006400;
         }
+
         .disponible {
             background-color: white;
+            border-color: #228B22;
+        }
+        .disponible .estado {
+            background-color: #E6F4EA;
             color: #006400;
         }
+
         .tombola {
             animation: spin 0.7s linear infinite;
         }
@@ -79,27 +108,21 @@
             </button>
         </div>
 
-        <!-- Sección PREMIOS (desplegable) -->
+        <!-- Sección PREMIOS -->
         <div id="premios-text" class="hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 mb-10">
             <h3 class="text-2xl font-bold text-[#006400] mb-6 text-center">🏆 PREMIOS DE LA POLLA</h3>
             <div class="space-y-6 text-lg">
                 <div class="flex items-start gap-4">
                     <span class="text-3xl">🥇</span>
-                    <div>
-                        <strong class="text-[#006400]">Primer Premio:</strong> 1 Millón de pesos
-                    </div>
+                    <div><strong class="text-[#006400]">Primer Premio:</strong> 1 Millón de pesos</div>
                 </div>
                 <div class="flex items-start gap-4">
                     <span class="text-3xl">🥈</span>
-                    <div>
-                        <strong class="text-[#006400]">Segundo Premio:</strong> Canasta Familia
-                    </div>
+                    <div><strong class="text-[#006400]">Segundo Premio:</strong> Canasta Familia</div>
                 </div>
                 <div class="flex items-start gap-4">
                     <span class="text-3xl">🥉</span>
-                    <div>
-                        <strong class="text-[#006400]">Tercer Premio:</strong> Un beso del Presi de la directiva
-                    </div>
+                    <div><strong class="text-[#006400]">Tercer Premio:</strong> Un beso del Presi de la directiva</div>
                 </div>
             </div>
         </div>
@@ -150,7 +173,7 @@
         </div>
     </div>
 
-    <!-- MODALES -->
+    <!-- MODAL TOMBOLA -->
     <div id="tombola-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[100]">
         <div class="text-center">
             <div class="w-80 h-80 mx-auto bg-white rounded-3xl flex items-center justify-center border-8 border-[#F4C430] shadow-2xl">
@@ -164,7 +187,7 @@
         // ==================== CONFIGURACIÓN ====================
         const SHEET_ID = "1kQkb3KmTHLyVSmBjUuD0qO3KhJAGT9Tdcdn7maoqHcc";
         const SHEET_NAME = "Hoja 1";
-        const DEADLINE = new Date("2026-04-14T13:15:00-04:00");
+        const DEADLINE = new Date("2026-04-30T13:00:00-04:00");
         const ADMIN_USER = "Admin";
         const ADMIN_PASSWORD = "Kudaw2026";
 
@@ -172,7 +195,6 @@
         let numbers = [];
         let winners = [];
 
-        // Cargar datos desde Google Sheets
         async function loadFromGoogleSheets() {
             try {
                 const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
@@ -218,13 +240,8 @@
                 div.className = `number-square ${isSold ? 'vendido' : 'disponible'}`;
                 
                 div.innerHTML = `
-                    <div class="text-center">
-                        <div class="text-4xl font-bold">${n.num}</div>
-                        ${isSold ? 
-                            `<div class="number-label text-[#F4C430] font-bold">VENDIDO</div>` : 
-                            `<div class="number-label text-[#228B22]">Disponible</div>`
-                        }
-                    </div>
+                    <div class="numero">${n.num}</div>
+                    <div class="estado">${isSold ? 'VENDIDO' : 'DISPONIBLE'}</div>
                 `;
 
                 grid.appendChild(div);
@@ -286,7 +303,7 @@
             }
         }
 
-        // === SORTEO (con AL AGUA! visibles) ===
+        // === SORTEO (mantenido igual) ===
         function showTombola(targetNum, isWinner, prizeName) {
             const modal = document.getElementById("tombola-modal");
             modal.classList.remove("hidden");
@@ -314,11 +331,7 @@
                 }
 
                 if (!isWinner) {
-                    winners.push({
-                        prize: prizeName,
-                        num: targetNum,
-                        status: "AL AGUA!"
-                    });
+                    winners.push({ prize: prizeName, num: targetNum, status: "AL AGUA!" });
                 }
 
                 setTimeout(() => {
@@ -396,7 +409,6 @@
                 }
                 showNext();
             }
-
             drawPrize();
         }
 
@@ -426,7 +438,7 @@
             loadFromGoogleSheets();
             setInterval(updateCountdown, 1000);
             updateCountdown();
-            setInterval(loadFromGoogleSheets, 15000); // recarga automática cada 15 segundos
+            setInterval(loadFromGoogleSheets, 15000);
         }
 
         window.onload = init;
